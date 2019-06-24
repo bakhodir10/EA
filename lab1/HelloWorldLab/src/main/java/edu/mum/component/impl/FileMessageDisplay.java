@@ -1,0 +1,71 @@
+package edu.mum.component.impl;
+
+import edu.mum.component.MessageDisplay;
+import edu.mum.component.MessageOrigin;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
+/*
+ * Need to declare class...
+ */
+
+@Component
+public class FileMessageDisplay implements MessageDisplay {
+
+    private MessageOrigin messageOrigin;
+
+    @Autowired
+    public FileMessageDisplay(MessageOrigin messageOrigin) {
+        this.messageOrigin = messageOrigin;
+    }
+
+    public void display() {
+        if (messageOrigin == null) {
+            throw new RuntimeException(
+                    "You must set the property messageSource of class:"
+                            + FileMessageDisplay.class.getName());
+        }
+
+        System.out.println(messageOrigin.getMessage());
+
+        writeMessageToFile(messageOrigin.getMessage());
+    }
+
+    public MessageOrigin getMessageSource() {
+        return this.messageOrigin;
+    }
+
+    private void writeMessageToFile(String message) {
+
+        String fileName = "test.txt";
+        String path = this.getClass().getClassLoader().getResource(".").getFile();
+
+        //create file
+        File file = new File(fileName);
+        try {
+            if (file.createNewFile()) {
+                System.out.println("File is created!");
+            } else {
+                System.out.println("File already exists.");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        FileWriter fileWriter;
+        try {
+            fileWriter = new FileWriter(file.getAbsoluteFile());
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            bufferedWriter.write(message);
+            bufferedWriter.close();
+            System.out.println("Message written to File in target/classes " + fileName);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
