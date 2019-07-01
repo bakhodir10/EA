@@ -3,11 +3,12 @@ package b;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 @NoArgsConstructor
 @Data
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Entity
 public class Product {
 
@@ -18,4 +19,8 @@ public class Product {
     private String name;
     private String description;
 
+    public Product(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
 }

@@ -3,10 +3,7 @@ package b;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.List;
 
 @NoArgsConstructor
@@ -21,6 +18,12 @@ public class Customer {
     private String firstName;
     private String lastName;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Order> orders;
+
+    public Customer(String firstName, String lastName, List<Order> orders) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.orders = orders;
+    }
 }

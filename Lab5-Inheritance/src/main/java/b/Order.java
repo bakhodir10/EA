@@ -4,7 +4,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @NoArgsConstructor
 @Data
@@ -16,9 +15,10 @@ public class Order {
     @Column(name = "orderid")
     private Long logId;
 
-    @Temporal(TemporalType.DATE)
-    private Date date;
-
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private OrderLine orderLine;
+
+    public Order(OrderLine orderLine) {
+        this.orderLine = orderLine;
+    }
 }

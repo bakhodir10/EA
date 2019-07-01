@@ -3,10 +3,7 @@ package a;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @NoArgsConstructor
 @Data
@@ -19,6 +16,11 @@ public class OrderLine {
 
     private int quantity;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Product product;
+
+    public OrderLine(int quantity, Product product) {
+        this.quantity = quantity;
+        this.product = product;
+    }
 }
