@@ -1,28 +1,20 @@
 package edu.mum.cs544;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import javax.persistence.EntityGraph;
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 
 public class StudentDAO {
 
-	private Collection<Student> studentlist = new ArrayList<Student>();
+    public Student load(long studentid) {
+        EntityManager em = EntityManagerHelper.getCurrent();
+        EntityGraph<Student> studentEntityGraph = em.createEntityGraph(Student.class);
+        studentEntityGraph.addAttributeNodes("courselist");
 
-	public StudentDAO() {
-		Student student = new Student(12345, "Frank", "Brown");
-		Course course1 = new Course(1101, "Java", "A");
-		Course course2 = new Course(1102, "Math", "B-");
-		student.addCourse(course1);
-		student.addCourse(course2);
-		studentlist.add(student);
-
-	}
-
-	public Student load(long studentid) {
-		for (Student student : studentlist) {
-			if (student.getStudentid() == studentid) {
-				return student;
-			}
-		}
-		return null;
-	}
+//        TypedQuery<Student> query = em.createQuery("from Student s where s.studentid = :sid", Student.class);
+        TypedQuery<Student> query = em.createQuery("from Student where studentid = :sid", Student.class);
+        query.setParameter("sid", studentid);
+        query.setHint("javax.persistence.fetchgraph", studentEntityGraph);
+        return query.getSingleResult();
+    }
 }
