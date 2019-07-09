@@ -1,4 +1,4 @@
-package edu.mum.cs544;
+package edu.mum.cs544.aop1.domain;
 
 public class Customer {
 	private String name;
