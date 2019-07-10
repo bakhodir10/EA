@@ -12,4 +12,5 @@
     <bean id="customerDAO" class="edu.mum.cs544.aop1.dao.CustomerDAO"/>
     <bean id="emailSender" class="edu.mum.cs544.aop1.email.EmailSender"/>
     <bean id="logAdvice" class="edu.mum.cs544.aop1.log.LogAdvice"/>
+    <bean id="calculatorAdvice" class="edu.mum.cs544.aop1.calculator.TimeCalculatorAdvice"/>
 </beans>
